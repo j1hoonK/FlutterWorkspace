@@ -3,33 +3,51 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:timer_builder/timer_builder.dart';
 import 'package:intl/intl.dart';
+import 'package:weather_app/model/model.dart';
 
 class WeatherScreen extends StatefulWidget {
-  const WeatherScreen({super.key, this.parseWeatherData});
+  const WeatherScreen({super.key, this.parseWeatherData, this.parseAirPollution});
 
   final parseWeatherData;
+  final parseAirPollution;
 
   @override
   State<WeatherScreen> createState() => _WeatherScreenState();
 }
 
 class _WeatherScreenState extends State<WeatherScreen> {
+  Model model = Model();
+  late Widget icon;
   late String cityName;
-  late double temp;
+  late String weather;
+  //late int condition;
+  var temp;
   var date = DateTime.now();
+  late Widget airIcon;
+  late Widget airState;
+  late double dust1;
+  late double dust2;
+
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    updateData(widget.parseWeatherData);
+    updateData(widget.parseWeatherData, widget.parseAirPollution);
   }
 
-  void updateData(dynamic weatherData) {
+  void updateData(dynamic weatherData, dynamic airPollution) {
     cityName = weatherData['name'];
-    print('cityName: $cityName');
-    temp = weatherData['main']['temp'];
-    print('Temperature: $temp');
+    double temp2 = weatherData['main']['temp'];
+    temp = temp2.toStringAsFixed(1);
+    weather = weatherData['weather'][0]['description'];
+    int condition = weatherData['weather'][0]['id'];
+    icon = model.getWeatherIcon(condition)!;
+    int index = airPollution['list'][0]['main']['aqi'];
+    airIcon = model.getAirIcon(index)!;
+    airState = model.getAirCondition(index)!;
+    dust1 = airPollution['list'][0]['components']['pm10'];
+    dust2 = airPollution['list'][0]['components']['pm2_5'];
   }
 
   String getSystemTime() {
@@ -43,7 +61,6 @@ class _WeatherScreenState extends State<WeatherScreen> {
       extendBodyBehindAppBar: true,
       appBar: AppBar(
         elevation: 0,
-        // title: Text(''),
         backgroundColor: Colors.transparent,
         leading: IconButton(
           onPressed: () {},
@@ -119,18 +136,18 @@ class _WeatherScreenState extends State<WeatherScreen> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('18\u2103',
+                            Text('$temp\u2103',
                                 style: GoogleFonts.lato(
                                     fontSize: 85,
                                     fontWeight: FontWeight.w300,
                                     color: Colors.white)),
                             Row(
                               children: [
-                                SvgPicture.asset('svg/climacon-sun.svg'),
+                                icon,
                                 SizedBox(
-                                  height: 10,
+                                  width: 10,
                                 ),
-                                Text('Clear Sky',
+                                Text('$weather',
                                     style: GoogleFonts.lato(
                                         fontSize: 16, color: Colors.white))
                               ],
@@ -156,49 +173,39 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                   style: GoogleFonts.lato(
                                       fontSize: 14, color: Colors.white)),
                               SizedBox(height: 10,),
-                              Image.asset(
-                                'image/bad.png',
-                                width: 37,
-                                height: 35,
-                              ),
+                              airIcon,
                               SizedBox(height: 10,),
-                              Text('"매우나쁨',
-                                  style: GoogleFonts.lato(
-                                      fontSize: 14, color: Colors.black87, fontWeight: FontWeight.bold),),
+                              airState,
                             ],
                           ),
                           Column(
                             children: [
-                              Text('AQI(대기질지수)',
+                              Text('미세먼지',
                                   style: GoogleFonts.lato(
                                       fontSize: 14, color: Colors.white)),
                               SizedBox(height: 10,),
-                              Image.asset(
-                                'image/bad.png',
-                                width: 37,
-                                height: 35,
-                              ),
+                              Text('$dust1',
+                                  style: GoogleFonts.lato(
+                                      fontSize: 24, color: Colors.white)),
                               SizedBox(height: 10,),
-                              Text('"매우나쁨',
+                              Text('㎍/m³',
                                 style: GoogleFonts.lato(
-                                    fontSize: 14, color: Colors.black87, fontWeight: FontWeight.bold),),
+                                    fontSize: 14, color: Colors.white, fontWeight: FontWeight.bold),),
                             ],
                           ),
                           Column(
                             children: [
-                              Text('AQI(대기질지수)',
+                              Text('초미세먼지',
                                   style: GoogleFonts.lato(
                                       fontSize: 14, color: Colors.white)),
                               SizedBox(height: 10,),
-                              Image.asset(
-                                'image/bad.png',
-                                width: 37,
-                                height: 35,
-                              ),
+                              Text('$dust2',
+                                  style: GoogleFonts.lato(
+                                      fontSize: 24, color: Colors.white)),
                               SizedBox(height: 10,),
-                              Text('"매우나쁨',
+                              Text('㎍/m³',
                                 style: GoogleFonts.lato(
-                                    fontSize: 14, color: Colors.black87, fontWeight: FontWeight.bold),),
+                                    fontSize: 14, color: Colors.white, fontWeight: FontWeight.bold),),
                             ],
                           ),
                         ],

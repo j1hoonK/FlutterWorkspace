@@ -11,9 +11,6 @@ class MyLocation{
           desiredAccuracy: LocationAccuracy.high);
       latitude2 = position.latitude;
       longitude2 = position.longitude;
-      print('position: $position');
-      print('latitude2: $latitude2');
-      print('longitude2: $longitude2');
     } on Exception catch (e) {
       // TODO
       print('err');
