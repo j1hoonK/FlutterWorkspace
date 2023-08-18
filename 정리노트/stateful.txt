@@ -1,0 +1,31 @@
+// State
+: UI가 변경되도록 영향을 미치는 데이터
+: App수준 / Widget수준의 데이터가 있음
+
+// Stateless widget
+: State가 변하지 않는 위젯
+ >> 한번 지정된 layout이나 color, text등은 
+ widget자체가 바뀌지 않는 한, 변하지 않음
+: Rebuild만을 통해서 새로운 State를 적용할 수 있음
+ 
+// Widget Tree
+: 설계도와 같은 역할 >> 이런식으로 그려줘
+
+// Element Tree_flutter에 의해 컨트롤됨
+: Widget Tree와 Render Tree를 연결
+: Widget Tree에 의거하여 생성
+
+
+// Render Tree_flutter에 의해 컨트롤됨
+: 직접적으로 스크린에 그림을 그림
+: 눈으로 보이는 요소들이 Render Tree에 의해 만들어진 것
+
+// Stateful Widget
+: 생성자를 통해 외부에서 데이터가 입력되면
+ Build method 호출 >> 렌더링 (Stateless와 동일)
+: Stateful은 내부에 State를 추가적으로 가지고있음
+ > 코드의 재사용성, 안정성 확보됨
+
+-Stateful Widget이 Rebuild되는 경우
+ 1) Child Widget의 생성자를 통해 데이터가 전달될 때
+ 2) Internal state가 바뀔 때
