@@ -17,9 +17,18 @@ class _CounterState extends State<Counter> {
         title: Text('Stream builder'),
       ),
       body: StreamBuilder<int>(
-        initialData: price,
+        initialData: price, // 최초의 값
         stream: addStreamValue(),
-        builder: (context, snapshot) => ,
+        builder: (context, snapshot) {
+          final priceNumber = snapshot.data.toString();
+          return Center(
+            child: Text(priceNumber,style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 40,
+              color: Colors.blue
+            )),
+          );
+        } ,
       ),
     );
   }
