@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({super.key});
@@ -39,19 +40,24 @@ class _ChatScreenState extends State<ChatScreen> {
         actions: [
           IconButton(
               onPressed: () {
-            _authentication.signOut();
-            Navigator.pop(context);ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content:
-              Text('LogOut Complete'),
-              backgroundColor: Colors.blue,
-            ));
-          },
+                _authentication.signOut();
+                Navigator.pop(context);
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content:
+                  Text('LogOut Complete'),
+                  backgroundColor: Colors.blue,
+                ));
+              },
               icon: Icon(Icons.logout)),
         ],
       ),
-      body: Center(
-        child: Text('Chat screen'),
-      ),
+      body: StreamBuilder(
+        stream: FirebaseFirestore.instance.collection('chat/vIPxxf3eebZnh9bxPxnn/message')
+        builder: (context, snapshot) {
+
+        },),
+    )
+    ,
     );
   }
 }

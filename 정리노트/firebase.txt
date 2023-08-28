@@ -1,0 +1,32 @@
+// firebase 
+*flutter에서 firebase를 사용하려면, '반드시' 
+1. firebase_core import
+2. main 메소드를 async로 변경
+3. main메소드 내에서 비동기 방식으로 
+WidgetsFlutterbinding.ensureInitialized(); 호출
+4. firebase.initialized(); 호출
+
+>> 
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  Firebase.initializeApp();
+  runApp(const MyApp());
+}
+
+// 비밀번호입력창 ***표시
+obscureText: true,
+
+// email용 키보드 띄우기
+keyboardType: TextInputType.emailAddress,
+
+// async에서 build context 사용하지마라는 에러
+if (!mounted) { return }; 을 navigator 위에 작성
+
+// Stream
+: 데이터의 흐름 >> 지속적으로 들어오는 데이터를 기다렸다가 받아야 하는 경우에 사용
+: Future의 복수형 
+	ex) int >> List<int> // Future<int> >> Stream<int>
+- StreamBuilder 사용
+ - initialDate
+ - stream:
+ - builder: 

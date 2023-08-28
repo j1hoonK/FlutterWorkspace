@@ -1,0 +1,52 @@
+// Provider
+
+* State Management
+: 위젯트리상에서의 위치와 관계 없이 데이터를 필요로 하는 위젯이 쉽게 데이터에 접근할 수 있는 방법
+: 변화된 데이터에 맞춰서 UI를 다시 그려주는 기능
+
+* State
+: UI에 변화가 생기도록 영향을 미치는 데이터
+
+* State Management
+: 위젯트리상에서의 위치와 관계 없이 데이터를 필요로 하는 위젯이 쉽게 데이터에 접근할 수 있는 방법
+: 변화된 데이터에 맞춰서 UI를 다시 그려주는 기능
+
+-setState Method
+ : State가 변해서 UI를 다시 그려야 하는 경우에 사용
+ : 위젯 라이프사이클에서 Build method를 호출 >> UI 랜더링
+ -문제점
+  -불필요한 랜더링이 지속됨
+  -동시에 다른 위젯의 state를 업데이트시켜주지 못함
+
+*Provider
+== Widget
+:데이터를 필요로 하는 위젯보다 항상 상위에 위치해야 함
+
+>>final fish = Provider.of<Data Type>(context).key;
+ex)'Fish number: ${Provider.of<FishModel>(context).number}'
+
+class FishModel{
+  final String name;
+  final int number;
+  final String size;
+
+  FishModel({required this.name,required this.number, required this.size});
+}
+
+*extends & with
+extends [class]: [class]를 상속받아옴
+with [mixin]: [mixin]을 상속받아옴 >> 일반적으로 다중상속을 허용하지 않지만 mixin은 가능함
+
+*ChangeNotifier Class(mixin)
+단점:
+ -매번 수동으로 addListener를 등록해줘야함
+ -매번 수동으로 addListener를 제거해줘야함
+ -인스턴스를 매번 생성자를 통해서 전달해야함
+ -UI리빌드도 수동으로 해야함
+>> ChangeNotifierProvider 를 써야함
+장점:
+ -모든 위젯들이 listen할 수 있는 ChangeNotifier 인스턴스 생성
+ -자동으로 필요없는 Changenotifier 제거
+ -Provider.of를 통해서 위젯들이 쉽게 ChangeNotifier 인스턴스에 접근할 수 있게 해줌
+ -필요 시, UI를 리빌드 시켜줄 수 있음
+ -굳이 UI를 리빌드할 필요가 없는 위젯을 위해서 listen:false 기능 제공
