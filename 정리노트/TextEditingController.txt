@@ -1,0 +1,22 @@
+// TextEditingController
+: TextField에 입력된 내용을 가져오는 역할
+
+TextEditingController 컨트롤러이름 = 
+TextEditingController();
+
+TextField(controller: 컨트롤러이름)
+
+컨트롤러이름.text: 입력된 텍스트 가져오기
+
+//GestureDetector
+: 사용자의 행동 감지
+-onTap: 각종 누르는류의 행위들
+
+// Focus
+autofocous: true >> 그쪽으로 커서가면서 키보드 생성
+*
+-FocusNode: 포커스를 받는 특정 위젯을 식별
+-FocusScope: 포커스를 받는 위젯의 범위 식별
+ >>FocusScope.of(context).unfocus();
+ : 포커스 해제
+ 
